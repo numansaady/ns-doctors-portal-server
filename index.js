@@ -99,6 +99,17 @@ async function run(){
       return res.send({success: true, result});
     });
 
+    // PUT api for addmin
+    app.put('/user/admin/:email', verifyJWT, async(req, res) => {
+      const email = req.params.email;
+      const filter = {email: email};
+      const updateDoc = {
+        $set : {role: "admin"},
+      };
+      const result = await userCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    })
+
     // PUT api for users
     app.put('/user/:email', async(req, res) => {
       const email = req.params.email;
